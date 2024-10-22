@@ -39,7 +39,7 @@ func NPRCalc(expression string) (int64, error) {
 			}
 			stack.Push(result)
 		}
-		if n != 0 {
+		if n != 0 || value == "0" {
 			stack.Push(n)
 		}
 	}

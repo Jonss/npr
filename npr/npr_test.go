@@ -66,10 +66,10 @@ func TestNPRCalc_Error(t *testing.T) {
 			expression: "sqrt",
 			wantErr:    "error: not enough elements for operation",
 		},
-		// {
-		// 	expression: "10 0 /",
-		// 	wantErr:    "error: division by zero",
-		// },
+		{
+			expression: "10 0 /",
+			wantErr:    "error: division by zero",
+		},
 		{
 			expression: "-4 sqrt",
 			wantErr:    "error: square root of negative number",
