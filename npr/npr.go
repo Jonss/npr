@@ -8,16 +8,21 @@ import (
 func NPRCalc(expression string) (int64, error) {
 	nums := strings.Split(expression, " ")
 	stack := NewStack()
-
 	result := 0
-	for _, i := range nums {
-		n, err := strconv.Atoi(i)
+
+	for _, value := range nums {
+		n, err := strconv.Atoi(value)
 		if err != nil {
-			operation, err := validSymbol(i)
+			operation, err := function(value)
 			if err != nil {
 				return 0, err
 			}
-			v2, v1 := stack.Pop(), stack.Pop()
+			v2, v1 := 0, 0
+			if value == "sqrt" {
+				v2, v1 = 0, stack.Pop()
+			} else {
+				v2, v1 = stack.Pop(), stack.Pop()
+			}
 
 			result, err = operation(v1, v2)
 			if err != nil {
