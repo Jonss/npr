@@ -2,7 +2,6 @@ package npr
 
 import (
 	"errors"
-	"fmt"
 	"math"
 )
 
@@ -20,14 +19,15 @@ var symbolMap = map[string]operation{
 	},
 	"/": func(a, b int) (int, error) {
 		if b == 0 {
-			return 0, errors.New("error division by zero")
+			return 0, errors.New("error: division by zero")
 		}
 		return a / b, nil
 	},
 	"sqrt": func(a, b int) (int, error) {
-		fmt.Println("sqrt", a, b)
+		if a < 0 {
+			return 0, errors.New("error: square root of negative number")
+		}
 		s := int(math.Sqrt(float64(a)))
-		fmt.Println(s)
 		return s, nil
 	},
 }
