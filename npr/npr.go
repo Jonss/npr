@@ -1,65 +1,34 @@
 package npr
 
 import (
-	"errors"
 	"strconv"
 	"strings"
 )
 
 func NPRCalc(expression string) (int64, error) {
 	nums := strings.Split(expression, " ")
-	stack := []int{}
+	stack := NewStack()
 
-	symbolMap := map[string]operation{
-		"+": func(a, b int) int {
-			return a + b
-		},
-		"-": func(a, b int) int {
-			return a - b
-		},
-		"*": func(a, b int) int {
-			return a * b
-		},
-		"/": func(a, b int) int {
-			return a / b
-		},
-	}
-
-	response := 0
-	for idx, i := range nums {
+	result := 0
+	for _, i := range nums {
 		n, err := strconv.Atoi(i)
 		if err != nil {
-			symbol, err := validSymbol(i)
+			operation, err := validSymbol(i)
 			if err != nil {
 				return 0, err
 			}
-			numbers := stack[idx-2:]
-			res := symbolMap[symbol]
+			v2, v1 := stack.Pop(), stack.Pop()
 
-			response = res(numbers[0], numbers[1])
+			result, err = operation(v1, v2)
+			if err != nil {
+				return 0, err
+			}
+			stack.Push(result)
 		}
 		if n != 0 {
-			stack = append(stack, n)
+			stack.Push(n)
 		}
 	}
 
-	return int64(response), nil
-}
-
-type operation func(a, b int) int
-
-func validSymbol(s string) (string, error) {
-	if s == "+" {
-		return "+", nil
-	}
-	if s == "-" {
-		return "-", nil
-	}
-	if s == "*" {
-		return "*", nil
-	}
-	if s == "/" {
-		return "/", nil
-	}
-	return "", errors.New("unknown token")
+	return int64(result), nil
 }

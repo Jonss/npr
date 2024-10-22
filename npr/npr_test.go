@@ -9,7 +9,7 @@ func TestNPRCalc(t *testing.T) {
 	}{
 		{
 			expression: "3 4 +",
-			want:       7, // Addition, expected result: 7
+			want:       7,
 		},
 		{
 			expression: "10 4 -",
